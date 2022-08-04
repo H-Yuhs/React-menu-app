@@ -1,58 +1,23 @@
-import React, { useEffect, useState } from 'react'
-import { Tours } from './data'
+import React, { useState } from 'react'
 
+function Home({ title, info, key }) {
+   const [isOpen, setIsOpen] = useState(false)
 
-function Home() {
-   const [deets, setDeets] = useState(Tours)
-   const [isEmpty, setIsEmpty] = useState(false)
-   const remove = (key) => {
-      setDeets(deets.filter(deet => deet.key !== key))
-   }
-   useEffect(() => { deets.length <= 0 && setIsEmpty(true) }, [deets])
    return (
-      <div className='main__container'>
-         <h1>Our Tours</h1>
-         <div className='underline'></div>
-         <div className='card__wrapper'>
-            {isEmpty ? (
-               <>
-                  <h2>No Tours Left</h2>
-                  <button type='button' className='btnRld' onClick={() => {
-                     setDeets(Tours)
-                     setIsEmpty(false)
 
-                  }}>
-                     Refresh
-                  </button>
-               </>
-
-            ) : (<>
-               {deets.map(deet => {
-                  const { img, descr, title, price, key } = deet
-                  return (
-                     <div key={key} className='tour_card' >
-                        <div className='tour_img'> <img src={img} alt={title} /></div>
-
-                        <div className='tour-details'>
-                           <div className="tour_info">
-                              <div className='tour_title'> <h2>{title}</h2></div>
-                              <div className='tour_price'> <h4>{price}</h4></div>
-                           </div>
-
-                           <div className='tour_descr'> <p>{descr}</p></div>
-                           <button type='button' className='btn' onClick={() => remove(key)}>Not interested</button>
-                        </div>
-
-                     </div>
-
-                  )
-               })}
-            </>)}
-
-
+      <div className='main__questions' key={key}>
+         <div className='question__head'>
+            <h4>{title}</h4>
+            <button type='button' onClick={() => setIsOpen(!isOpen)}>{isOpen ? <svg xmlns="http://www.w3.org/2000/svg" id="Outline" viewBox="0 0 24 24" width="512" height="512" fill='currentColor'><rect y="11" width="24" height="2" rx="1" /></svg> : <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="512" height="512" fill='currentColor'><g id="_01_align_center" data-name="01 align center"><polygon points="24 11 13 11 13 0 11 0 11 11 0 11 0 13 11 13 11 24 13 24 13 13 24 13 24 11" /></g></svg>}</button>
          </div>
-      </div >
+
+         {isOpen && <div className='question__answer'>
+            <p>{info}</p>
+         </div>}
+
+      </div>
    )
 }
 
 export default Home
+
